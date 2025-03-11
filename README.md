@@ -1,77 +1,92 @@
-MyNodeServer - Deployment Guide
+Here's a well-structured README.md file with markdown formatting:
 
-Overview
+markdown
+Copy
+Edit
+# MyNodeServer - Deployment Guide
 
-This project sets up a Node.js API server on an AWS EC2 instance using Nginx as a reverse proxy and PM2 for process management.
+## Overview
 
-Prerequisites
+This project sets up a **Node.js API server** on an **AWS EC2 instance**, using **Nginx** as a reverse proxy and **PM2** for process management.
+
+---
+
+## Prerequisites
 
 Ensure the following are installed on your EC2 instance:
 
-Ubuntu (EC2 Instance)
+- **Ubuntu (EC2 Instance)**
+- **Node.js (via NVM)**
+- **PM2**
+- **Nginx**
+- **Git**
 
-Node.js (via NVM)
+---
 
-PM2
+## Installation Steps
 
-Nginx
-
-Git
-
-Installation Steps
-
-1. Install Nginx
-
+### 1. Install Nginx
+```bash
 sudo apt update
 sudo apt install nginx -y
-
 2. Install NVM (Node Version Manager)
-
+bash
+Copy
+Edit
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
 export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
-[ -s "$NVM_DIR/nvm.sh" ] && \ . "$NVM_DIR/nvm.sh"
-
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 3. Install Node.js (Latest LTS Version)
-
+bash
+Copy
+Edit
 nvm install --lts
 node -v
 npm -v
-
 4. Setup Project Folder
-
+bash
+Copy
+Edit
 cd /var/www/
 sudo mkdir app_api
 sudo chown ubuntu:www-data -R app_api
 sudo chmod 775 -R app_api
 cd app_api
-
 5. Clone Project Repository
-
+bash
+Copy
+Edit
 git clone <your-repo-url> .
-
 6. Create .env file
-
+bash
+Copy
+Edit
 nano .env
-
 Add the following content:
 
+ini
+Copy
+Edit
 PORT=3000
 APP_NAME=MyNodeServer
 ENVIRONMENT=production
-
 7. Install Project Dependencies
-
+bash
+Copy
+Edit
 npm install
 npm install dotenv
-
-8. Configure Nginx Reverse Proxy
-
-Create a configuration file for the service:
-
+Configure Nginx Reverse Proxy
+1. Create a configuration file for the service:
+bash
+Copy
+Edit
 sudo nano /etc/nginx/sites-available/service.conf
-
 Add the following content:
 
+nginx
+Copy
+Edit
 server {
     listen 80;
     listen [::]:80;
@@ -89,52 +104,57 @@ server {
         client_max_body_size 200m;
     }
 }
-
-Enable the Nginx configuration:
-
+2. Enable the Nginx configuration:
+bash
+Copy
+Edit
 sudo ln -s /etc/nginx/sites-available/service.conf /etc/nginx/sites-enabled/
 sudo nginx -t
 sudo systemctl restart nginx
-
-9. Start the Application with PM2
-
+Start the Application with PM2
+bash
+Copy
+Edit
 cd /var/www/app_api
 npm install -g pm2
 pm2 start index.js
 pm2 save
 pm2 startup
-
 To restart after modifying index.js:
-
-pm2 status # Check process ID
+bash
+Copy
+Edit
+pm2 status  # Check process ID
 pm2 restart <ID>
-
 API Endpoints
-
-Method
-
-Endpoint
-
-Description
-
-GET
-
-/
-
-Home Page
-
-GET
-
-/api/info
-
-API Information
-
+Method	Endpoint	Description
+GET	/	Home Page
+GET	/api/info	API Information
 Troubleshooting
+Check logs:
 
-Check logs: pm2 logs
+bash
+Copy
+Edit
+pm2 logs
+Restart Nginx:
 
-Restart Nginx: sudo systemctl restart nginx
+bash
+Copy
+Edit
+sudo systemctl restart nginx
+Check Nginx configuration:
 
-Check Nginx configuration: sudo nginx -t
+bash
+Copy
+Edit
+sudo nginx -t
+Restart PM2 process:
 
-Restart PM2 process: pm2 restart <ID>
+bash
+Copy
+Edit
+pm2 restart <ID>
+Notes
+Make sure your EC2 security group allows inbound traffic on port 80 (HTTP) and 3000 (for testing).
+Use pm2 startup systemd to ensure PM2 restarts on system reboot.
