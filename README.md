@@ -73,7 +73,8 @@ ENVIRONMENT=production
 
 npm install
 
-npm install dotenv
+npm install express dotenv
+
 
 
 8. Configure Nginx Reverse Proxy
