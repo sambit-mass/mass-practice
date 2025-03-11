@@ -44,9 +44,9 @@ npm -v
 
 cd /var/www/
 
-sudo chown ubuntu:www-data -R app_api
+sudo chown ubuntu:www-data -R www/
 
-sudo chmod 775 -R app_api
+sudo chmod 775 -R www/
 
 sudo mkdir app_api
 
