@@ -42,14 +42,20 @@ npm -v
 4. Setup Project Folder
 
 cd /var/www/
+
 sudo mkdir app_api
+
 sudo chown ubuntu:www-data -R app_api
+
 sudo chmod 775 -R app_api
+
 cd app_api
+
 
 5. Clone Project Repository
 
 git clone <your-repo-url> .
+
 
 6. Create .env file
 
@@ -61,16 +67,20 @@ PORT=3000
 APP_NAME=MyNodeServer
 ENVIRONMENT=production
 
+
 7. Install Project Dependencies
 
 npm install
+
 npm install dotenv
+
 
 8. Configure Nginx Reverse Proxy
 
 Create a configuration file for the service:
 
 sudo nano /etc/nginx/sites-available/service.conf
+
 
 Add the following content:
 
@@ -96,41 +106,29 @@ server {
 Enable the Nginx configuration:
 
 sudo ln -s /etc/nginx/sites-available/service.conf /etc/nginx/sites-enabled/
+
 sudo nginx -t
+
 sudo systemctl restart nginx
 
 9. Start the Application with PM2
 
 cd /var/www/app_api
+
 npm install -g pm2
+
 pm2 start index.js
+
 pm2 save
+
 pm2 startup
 
 To restart after modifying index.js:
 
 pm2 status # Check process ID
+
 pm2 restart <ID>
 
-API Endpoints
-
-Method
-
-Endpoint
-
-Description
-
-GET
-
-/
-
-Home Page
-
-GET
-
-/api/info
-
-API Information
 
 Troubleshooting
 
