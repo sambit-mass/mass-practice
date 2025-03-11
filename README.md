@@ -44,11 +44,11 @@ npm -v
 
 cd /var/www/
 
-sudo mkdir app_api
-
 sudo chown ubuntu:www-data -R app_api
 
 sudo chmod 775 -R app_api
+
+sudo mkdir app_api
 
 cd app_api
 
