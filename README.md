@@ -92,6 +92,7 @@ server {
     server_name app-api-v3.test.ie;
     root /var/www/app_api;
     index index.html;
+    
     location / {
         proxy_pass http://localhost:3000;
         proxy_http_version 1.1;
